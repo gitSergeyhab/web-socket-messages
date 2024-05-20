@@ -15,7 +15,6 @@ export const sendMessageHandler = async (
   data: SendMessageHandlerData
 ) => {
   const { message, roomId, userId } = data;
-  console.log({ message });
   const newMessage = await createNewMessage({ message, roomId, userId });
   if (newMessage)
     io.to(data.roomId).emit("message:new", toResponseMessage(newMessage));

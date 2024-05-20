@@ -18,7 +18,7 @@ const MessageSchema = new Schema<ChatMessageDocument>({
   text: { type: String, required: true },
   userName: { type: String, required: true },
   userRole: { type: String, enum: ["STUDENT", "TEACHER"], required: true },
-  datetime: { type: Date, default: Date.now, required: true }, // Использование Date и установка значения по умолчанию
+  datetime: { type: Date, default: Date.now, required: true },
   commentedMessage: { type: BaseMessageSchema, required: false },
   isDeleted: { type: Boolean, default: false },
   userId: { type: Number, required: true },

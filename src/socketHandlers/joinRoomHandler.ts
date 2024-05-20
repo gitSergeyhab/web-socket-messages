@@ -27,6 +27,5 @@ export const joinRoomHandler = async (
   io.to(roomId).emit("users:avatars", userAvatars);
 
   const messages = await getRoomMessages(roomId);
-  console.log(messages[messages.length - 1].commentedMessage);
   io.to(roomId).emit("messages:all", toResponseMessages(messages));
 };
