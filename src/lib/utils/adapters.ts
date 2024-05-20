@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
-import { BaseMessageDocument, ChatMessageDocument } from "../models/Message";
-import { ResponseCommentedMessage, ResponseMessage } from "../types/message";
+import { BaseMessageDocument, ChatMessageDocument } from "../../models/Message";
+import { ResponseCommentedMessage, ResponseMessage } from "../../types/message";
 
 type CommentedMessage =
   | (BaseMessageDocument & {

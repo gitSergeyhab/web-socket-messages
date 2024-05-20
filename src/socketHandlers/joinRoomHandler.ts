@@ -4,28 +4,29 @@ import {
   getFirstAvatars,
   getUsersCountInRoom,
   userMap,
-} from "../db/internalВbService";
-import { toResponseMessages } from "../utils/adapters";
-import { getRoomMessages } from "../db/externalDbService";
+} from "../lib/services/db/internalВbService";
+import { toResponseMessages } from "../lib/utils/adapters";
+import { getRoomMessages } from "../lib/services/db/externalDbService";
+import { getUserInfoAndSetToDB } from "../lib/helpers/getUserInfo";
+import { sendUnAuthMessage, sendUsersData } from "../lib/helpers/socket";
 
 export interface JoinRoomHandlerData {
-  user: User;
   roomId: string;
+  token: string;
 }
 
 export const joinRoomHandler = async (
   io: Server,
   socket: Socket,
-  { user, roomId }: JoinRoomHandlerData
+  { roomId, token }: JoinRoomHandlerData
 ) => {
-  userMap.set(socket.id, { ...user, roomId });
+  const userInfo = await getUserInfoAndSetToDB(socket.id, roomId, token);
+  if (!userInfo) {
+    sendUnAuthMessage(io, socket.id);
+    return;
+  }
   socket.join(roomId);
-
-  const roomUsersCount = getUsersCountInRoom(roomId);
-  const userAvatars = getFirstAvatars(3);
-  io.to(roomId).emit("users:count", roomUsersCount);
-  io.to(roomId).emit("users:avatars", userAvatars);
-
+  sendUsersData(io, roomId);
   const messages = await getRoomMessages(roomId);
   io.to(roomId).emit("messages:all", toResponseMessages(messages));
 };

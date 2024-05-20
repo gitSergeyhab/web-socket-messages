@@ -16,17 +16,14 @@ export interface ChatDBMessage extends BaseMessage {
 
 export interface RequestMessage {
   text: string;
-  userName: string;
-  userRole: Role;
   commentedMessage?: BaseMessage;
-}
-
-export interface ResponseMessage extends BaseMessage {
-  commentedMessage?: BaseMessage;
-  datetime: Date;
-  id: string;
 }
 
 export interface ResponseCommentedMessage extends BaseMessage {
+  id: string;
+}
+export interface ResponseMessage extends BaseMessage {
+  commentedMessage?: ResponseCommentedMessage;
+  datetime: Date;
   id: string;
 }

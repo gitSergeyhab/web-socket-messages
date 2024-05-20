@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
-import { ChatMessageDocument, MessageModel } from "../models/Message";
-import { RequestMessage } from "../types/message";
+import { ChatMessageDocument, MessageModel } from "../../../models/Message";
+import { RequestMessage } from "../../../types/message";
+import { AuthUserData } from "../../../types/user";
 
 type DBMessage = ChatMessageDocument & {
   _id: Types.ObjectId;
@@ -8,14 +9,21 @@ type DBMessage = ChatMessageDocument & {
 export const createNewMessage = async ({
   message,
   roomId,
-  userId,
+  userInfo,
 }: {
   message: RequestMessage;
   roomId: string;
-  userId: number;
+  userInfo: AuthUserData;
 }): Promise<DBMessage | null> => {
   try {
-    const newMessage = new MessageModel({ ...message, roomId, userId });
+    const { id, name, role } = userInfo;
+    const newMessage = new MessageModel({
+      ...message,
+      roomId,
+      userId: id,
+      userName: name,
+      userRole: role,
+    });
     await newMessage.save();
     return newMessage;
   } catch (err) {

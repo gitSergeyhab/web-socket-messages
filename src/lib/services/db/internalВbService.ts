@@ -1,6 +1,5 @@
-import { User } from "../types/user";
+import { User, UserWithRoom } from "../../../types/user";
 
-export type UserWithRoom = User & { roomId: string };
 export const userMap = new Map<string, UserWithRoom>();
 
 export const getUsersCountInRoom = (roomId: string): number =>
@@ -24,7 +23,10 @@ export const deleteUser = (userSocketId: string): void => {
   userMap.delete(userSocketId);
 };
 
+export const getUserBySocket = (socketId: string): UserWithRoom | undefined =>
+  userMap.get(socketId);
+
 export const getRoomIdBySocketId = (socketId: string): null | string => {
-  const user = userMap.get(socketId);
+  const user = getUserBySocket(socketId);
   return user ? user.roomId : null;
 };

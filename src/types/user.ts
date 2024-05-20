@@ -7,3 +7,5 @@ export interface User {
   name: string;
   avatar: string;
 }
+export type AuthUserData = Omit<User, "socketId">;
+export type UserWithRoom = User & { roomId: string }; // у юзера всего 1 комната, не может быть одновременно 2-х вебинаров

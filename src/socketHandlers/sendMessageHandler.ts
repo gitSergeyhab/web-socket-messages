@@ -1,21 +1,28 @@
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
 import { MessageModel } from "../models/Message";
-import { RequestMessage } from "../types/message";
-import { toResponseMessage } from "../utils/adapters";
-import { createNewMessage } from "../db/externalDbService";
+import { ChatDBMessage, RequestMessage } from "../types/message";
+import { toResponseMessage } from "../lib/utils/adapters";
+import { createNewMessage } from "../lib/services/db/externalDbService";
+import { sendUnAuthMessage } from "../lib/helpers/socket";
+import { getUserBySocket } from "../lib/services/db/internalВbService";
 
 export interface SendMessageHandlerData {
   message: RequestMessage;
   roomId: string;
-  userId: number;
 }
 
 export const sendMessageHandler = async (
   io: Server,
+  socketId: string,
   data: SendMessageHandlerData
 ) => {
-  const { message, roomId, userId } = data;
-  const newMessage = await createNewMessage({ message, roomId, userId });
+  const { roomId, message } = data;
+  const userInfo = getUserBySocket(socketId);
+  if (!userInfo) {
+    sendUnAuthMessage(io, socketId);
+    return;
+  }
+  const newMessage = await createNewMessage({ message, roomId, userInfo });
   if (newMessage)
     io.to(data.roomId).emit("message:new", toResponseMessage(newMessage));
 };

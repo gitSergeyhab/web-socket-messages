@@ -18,12 +18,13 @@ export const connectionHandler = (io: Server, socket: Socket) => {
   );
   socket.on(
     "message:send",
-    async (data: SendMessageHandlerData) => await sendMessageHandler(io, data)
+    async (data: SendMessageHandlerData) =>
+      await sendMessageHandler(io, socket.id, data)
   );
   socket.on(
     "message:delete",
     async (data: DeleteMessageHandlerData) =>
-      await deleteMessageHandler(io, data)
+      await deleteMessageHandler(io, socket.id, data)
   );
 
   socket.on("disconnect", () => disconnectHandler(io, socket));

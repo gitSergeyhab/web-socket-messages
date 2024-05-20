@@ -1,12 +1,11 @@
 import express from "express";
 import http from "http";
 import { Server } from "socket.io";
-import mongoose from "mongoose";
-import cors from "cors";
 import dotenv from "dotenv";
-import { errorHandler } from "./utils/middlewares/errorHandler";
-import { mongoConnect } from "./utils/mongoConnect";
+import { errorHandler } from "./lib/utils/middlewares/errorHandler";
+import { mongoConnect } from "./lib/utils/mongoConnect";
 import { connectionHandler } from "./socketHandlers/connectionHandler";
+
 dotenv.config();
 
 const app = express();
@@ -23,8 +22,6 @@ const io = new Server(server, {
     methods: ["GET", "POST", "DELETE"],
   },
 });
-
-// app.use("/api", routes); // TODO добавить роут на http запрос всех сообщений
 
 app.use(errorHandler);
 
