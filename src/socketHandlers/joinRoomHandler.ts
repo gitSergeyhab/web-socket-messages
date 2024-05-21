@@ -14,6 +14,23 @@ export const joinRoomHandler = async (
   socket: Socket,
   { roomId, token }: JoinRoomHandlerData
 ) => {
+  if (process.env.MONGO_URI) {
+    io.to(roomId).emit("message:new", {
+      id: "22",
+      text: "MONGO_URI exists ++++++++++++++++++",
+      userName: "string",
+      userRole: "TEACHER",
+      userId: 123,
+    });
+  } else {
+    io.to(roomId).emit("message:new", {
+      id: "22",
+      text: "MONGO_URI NOT exists ------------",
+      userName: "string",
+      userRole: "TEACHER",
+      userId: 123,
+    });
+  }
   const userInfo = await getUserInfoAndSetToDB(socket.id, roomId, token);
   if (!userInfo) {
     sendUnAuthMessage(io, socket.id);

@@ -22,6 +22,15 @@ export const sendMessageHandler = async (
     return;
   }
   const newMessage = await createNewMessage({ message, roomId, userInfo });
-  if (newMessage)
+  if (newMessage) {
     io.to(data.roomId).emit("message:new", toResponseMessage(newMessage));
+  } else {
+    io.to(data.roomId).emit("message:new", {
+      id: "22",
+      text: "string",
+      userName: "string",
+      userRole: "TEACHER",
+      userId: 123,
+    });
+  }
 };
