@@ -16,7 +16,10 @@ const server = http.createServer(app);
 
 app.use(express.json());
 
-const origin = process.env.ALLOWED_ORIGINS?.split(",") || [];
+const hosts = process.env.ALLOWED_ORIGINS?.split(",") || [];
+
+// const origin = process.env.NODE_ENV === "development" ? hosts : "*";
+const origin = "*"; // TODO  заменить !!!
 
 app.use(
   cors({
@@ -37,5 +40,5 @@ mongoConnect();
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}, mode`);
 });
