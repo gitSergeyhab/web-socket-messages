@@ -19,7 +19,7 @@ app.use(express.json());
 const hosts = process.env.ALLOWED_ORIGINS?.split(",") || [];
 
 // const origin = process.env.NODE_ENV === "development" ? hosts : "*";
-const origin = "*"; // TODO  заменить !!!
+const origin = "*";
 
 app.use(
   cors({
