@@ -1,0 +1,70 @@
+name: project deployment for production
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  code_quality_checking:
+    name: проверка качества кода
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+      - run: npm ci
+      - run: npm run lint
+  build:
+    name: сборка проекта
+    needs: code_quality_checking
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "18.x"
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: |
+            dist/
+            .env
+            package.json
+  deploy:
+    name: доставка кода на сервер
+    needs: build
+    runs-on: ubuntu-20.04
+    container: alpine:latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+      - uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.DEPLOYMENT_PRIVATE_KEY }}
+          source: "./build/*"
+          target: ${{ secrets.TARGET_PATH_FOR_DEPLOYMENT }}
+          strip_components: 1
+          rm: true
+  install_dependencies:
+    name: установка зависимостей
+    needs: deploy
+    environment: deployment
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.DEPLOYMENT_PRIVATE_KEY }}
+          script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            cd ${{ secrets.TARGET_PATH_FOR_DEPLOYMENT }}
+            npm i
