@@ -1,6 +1,6 @@
+import { getUserBySocket, setUser } from "../../db/internalВbService";
 import { UserWithRoom } from "../../types/user";
-import { requestUserAuthData$ } from "../api/mainServerApi";
-import { getUserBySocket, setUser } from "../services/db/internalВbService";
+import { requestUserAuthData } from "../api/mainServerApi";
 
 export const getUserInfoAndSetToDB = async (
   socketId: string,
@@ -9,13 +9,9 @@ export const getUserInfoAndSetToDB = async (
 ): Promise<UserWithRoom | null> => {
   const dbUser = getUserBySocket(socketId);
   if (dbUser) return dbUser;
-  try {
-    const requestedUser = await requestUserAuthData$(token);
-    const user = { ...requestedUser, socketId };
-    setUser(socketId, user, roomId);
-    return { ...user, roomId };
-  } catch (err) {
-    console.error("There is no user with such token");
-    return null;
-  }
+  const requestedUser = await requestUserAuthData(token);
+  if (!requestedUser) return null;
+  const user = { ...requestedUser, socketId };
+  setUser(socketId, user, roomId);
+  return { ...user, roomId };
 };

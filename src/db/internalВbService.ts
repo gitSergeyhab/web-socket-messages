@@ -1,4 +1,4 @@
-import { User, UserWithRoom } from "../../../types/user";
+import { User, UserWithRoom } from "../types/user";
 
 export const userMap = new Map<string, UserWithRoom>();
 

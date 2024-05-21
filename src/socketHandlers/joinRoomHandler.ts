@@ -1,14 +1,8 @@
 import { Server, Socket } from "socket.io";
-import { User } from "../types/user";
-import {
-  getFirstAvatars,
-  getUsersCountInRoom,
-  userMap,
-} from "../lib/services/db/internalВbService";
 import { toResponseMessages } from "../lib/utils/adapters";
-import { getRoomMessages } from "../lib/services/db/externalDbService";
 import { getUserInfoAndSetToDB } from "../lib/helpers/getUserInfo";
 import { sendUnAuthMessage, sendUsersData } from "../lib/helpers/socket";
+import { getRoomMessages } from "../db/externalDbService";
 
 export interface JoinRoomHandlerData {
   roomId: string;

@@ -1,10 +1,12 @@
 import express from "express";
 import http from "http";
+import cors from "cors";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
 import { errorHandler } from "./lib/utils/middlewares/errorHandler";
 import { mongoConnect } from "./lib/utils/mongoConnect";
 import { connectionHandler } from "./socketHandlers/connectionHandler";
+import { router } from "./routes";
 
 dotenv.config();
 
@@ -16,12 +18,16 @@ app.use(express.json());
 
 const origin = process.env.ALLOWED_ORIGINS?.split(",") || [];
 
-const io = new Server(server, {
-  cors: {
+app.use(
+  cors({
     origin,
-    methods: ["GET", "POST", "DELETE"],
-  },
-});
+    methods: ["GET", "POST"],
+  })
+);
+
+app.use("/api/v1", router);
+
+export const io = new Server(server, { cors: { origin } });
 
 app.use(errorHandler);
 

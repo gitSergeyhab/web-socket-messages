@@ -6,7 +6,8 @@ export const createMockedAuthUser = (
   avatar:
     "https://s6.cdn.eg.ru/wp-content/uploads/2017/12/charli-chaplin092718.jpg",
   id: 12,
-  name: "Чарльз Спенсер Чаплин",
+  first_name: "Чарльз",
+  last_name: "Чаплин",
   role: "STUDENT",
   ...user,
 });

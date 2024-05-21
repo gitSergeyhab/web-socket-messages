@@ -1,7 +1,7 @@
 import { Server } from "socket.io";
-import { deleteMessage } from "../lib/services/db/externalDbService";
 import { sendUnAuthMessage } from "../lib/helpers/socket";
-import { getUserBySocket } from "../lib/services/db/internalВbService";
+import { getUserBySocket } from "../db/internalВbService";
+import { deleteMessage } from "../db/externalDbService";
 
 export interface DeleteMessageHandlerData {
   roomId: string;
