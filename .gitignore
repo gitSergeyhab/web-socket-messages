@@ -1,4 +1,4 @@
 node_modules/
 dist/
 .env
-.log-file.log
+log-file.log
