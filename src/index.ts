@@ -7,6 +7,8 @@ import { errorHandler } from "./lib/utils/middlewares/errorHandler";
 import { mongoConnect } from "./lib/utils/mongoConnect";
 import { connectionHandler } from "./socketHandlers/connectionHandler";
 import { router } from "./routes";
+import morgan from "morgan";
+import { logger } from "./lib/utils/logger";
 
 dotenv.config();
 
@@ -29,6 +31,14 @@ app.use(
   })
 );
 
+app.use(
+  morgan("combined", {
+    stream: {
+      write: (message) => logger.info(message.trim()),
+    },
+  })
+);
+
 app.use("/api/v1", router);
 
 export const io = new Server(server, { cors: { origin } });
@@ -41,5 +51,5 @@ mongoConnect();
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}, mode`);
+  logger.info(`Server is running on port ${PORT}`);
 });

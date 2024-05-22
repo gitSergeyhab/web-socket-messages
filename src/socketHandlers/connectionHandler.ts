@@ -9,9 +9,11 @@ import {
   DeleteMessageHandlerData,
   deleteMessageHandler,
 } from "./deleteMessageHandler";
+import { logger } from "../lib/utils/logger";
 
 export const connectionHandler = (io: Server, socket: Socket) => {
-  console.log("a user connected");
+  logger.info(`a user connected: ${socket.id}`);
+
   socket.on(
     "room:join",
     async (data: JoinRoomHandlerData) => await joinRoomHandler(io, socket, data)
@@ -27,5 +29,5 @@ export const connectionHandler = (io: Server, socket: Socket) => {
       await deleteMessageHandler(io, socket.id, data)
   );
 
-  socket.on("disconnect", () => disconnectHandler(io, socket));
+  socket.on("disconnect", () => disconnectHandler(socket));
 };

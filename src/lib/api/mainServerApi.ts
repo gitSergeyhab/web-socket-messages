@@ -13,6 +13,6 @@ export const requestUserAuthData$ = (token: string): Promise<AuthUserData> =>
 
 export const requestUserAuthData = handledRequest(
   requestUserAuthData$,
-  "Ошибка загрузки данных пользователя",
+  "request user auth data error",
   null
 );
