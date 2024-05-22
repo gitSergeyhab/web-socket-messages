@@ -1,7 +1,8 @@
 import { Server } from "socket.io";
-import { sendUnAuthMessage } from "../lib/helpers/socket";
+import { sendErrorMessage } from "../lib/helpers/socket";
 import { getUserBySocket } from "../db/internalВbService";
 import { deleteMessage } from "../db/externalDbService";
+import { logger } from "../lib/utils/logger";
 
 export interface DeleteMessageHandlerData {
   roomId: string;
@@ -16,10 +17,13 @@ export const deleteMessageHandler = async (
   const userInfo = getUserBySocket(socketId);
 
   if (!userInfo) {
-    sendUnAuthMessage(io, socketId);
+    sendErrorMessage(socketId, "Авторизуйтесь, чтобы удалять сообщения");
+    logger.warn(
+      `un auth user: ${socketId} tried to delete the message: ${messageId}`
+    );
     return;
   }
 
-  await deleteMessage(messageId);
+  await deleteMessage(messageId, socketId);
   io.to(roomId).emit("message:delete", messageId);
 };
