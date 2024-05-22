@@ -71,5 +71,4 @@ jobs:
             echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> .env
             echo "ALLOWED_ORIGINS=${{ secrets.ALLOWED_ORIGINS }}" >> .env
             echo "MAIN_SERVER_URL=${{ secrets.MAIN_SERVER_URL }}" >> .env
-            echo "TEST=TEST" >> .env
             npm i

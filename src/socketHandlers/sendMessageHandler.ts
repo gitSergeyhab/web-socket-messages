@@ -17,10 +17,6 @@ export const sendMessageHandler = async (
 ) => {
   const { roomId, message } = data;
   const userInfo = getUserBySocket(socketId);
-  io.emit(
-    "log",
-    `!___________process.env.MONGO: ${process.env.MONGO}, TEST: ${process.env.TEST}`
-  );
   if (!userInfo) {
     sendUnAuthMessage(io, socketId);
     return;
