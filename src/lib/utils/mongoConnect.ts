@@ -1,8 +1,11 @@
 import mongoose from "mongoose";
 import { logger } from "./logger";
 
-export const mongoConnect = () =>
+export const mongoConnect = () => {
+  logger.info(`start mongo connection, ${process.env.MONGO_URI}`);
   mongoose
     .connect(process.env.MONGO_URI!)
     .then(() => logger.info(`MongoDB connected`))
-    .catch((err) => logger.error(`MongoDB connection error:: ${err}`));
+    .catch((err) => logger.error(`MongoDB connection error:: ${err}`))
+    .finally(() => logger.info("end mongo connection"));
+};
