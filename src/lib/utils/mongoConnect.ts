@@ -2,7 +2,9 @@ import mongoose from "mongoose";
 import { logger } from "./logger";
 
 export const mongoConnect = () => {
-  logger.info(`start mongo connection, ${process.env.MONGO_URI}`);
+  logger.info(
+    `start mongo connection, hosts: ${process.env.ALLOWED_ORIGINS} / mon: ${process.env.MONGO_URI}`
+  );
   mongoose
     .connect(process.env.MONGO_URI!)
     .then(() => logger.info(`MongoDB connected`))
