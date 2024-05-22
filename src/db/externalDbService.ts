@@ -44,7 +44,7 @@ export const getRoomMessages = async (
   try {
     return await MessageModel.find({ roomId, isDeleted: false });
   } catch (err) {
-    sendErrorMessage(socketId, "удаление сообщения невозможно");
+    sendErrorMessage(socketId, "сообщения чата недоступны");
     logger.error(`get messages from db: ${err}`);
     return [];
   }
@@ -54,7 +54,7 @@ export const deleteMessage = async (messageId: string, socketId: string) => {
   try {
     await MessageModel.findByIdAndUpdate(messageId, { isDeleted: true });
   } catch (err) {
-    sendErrorMessage(socketId, "сообщения чата недоступны");
+    sendErrorMessage(socketId, "удаление сообщения невозможно");
     logger.error(`delete message from db: ${err}`);
   }
 };
