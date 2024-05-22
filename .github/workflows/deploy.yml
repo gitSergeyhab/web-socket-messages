@@ -67,8 +67,8 @@ jobs:
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
             cd ${{ secrets.TARGET_PATH_FOR_DEPLOYMENT }}
-            echo "PORT=${{ secrets.PORT }}" >> .env
-            echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> .env
-            echo "ALLOWED_ORIGINS=${{ secrets.ALLOWED_ORIGINS }}" >> .env
-            echo "MAIN_SERVER_URL=${{ secrets.MAIN_SERVER_URL }}" >> .env
+            echo "PORT=${{ secrets.PORT }}" >> dist/.env
+            echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> dist/.env
+            echo "ALLOWED_ORIGINS=${{ secrets.ALLOWED_ORIGINS }}" >> dist/.env
+            echo "MAIN_SERVER_URL=${{ secrets.MAIN_SERVER_URL }}" >> dist/.env
             npm i
