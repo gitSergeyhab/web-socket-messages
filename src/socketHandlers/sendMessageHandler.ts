@@ -2,7 +2,7 @@ import { Server } from "socket.io";
 import { RequestMessage } from "../types/message";
 import { toResponseMessage } from "../lib/utils/adapters";
 import { sendErrorMessage } from "../lib/helpers/socket";
-import { getUserBySocket } from "../db/internalВbService";
+import { getUserBySocket } from "../db/internalDbService";
 import { createNewMessage } from "../db/externalDbService";
 import { logger } from "../lib/utils/logger";
 

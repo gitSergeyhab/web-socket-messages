@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
 import { sendErrorMessage } from "../lib/helpers/socket";
-import { getUserBySocket } from "../db/internalВbService";
+import { getUserBySocket } from "../db/internalDbService";
 import { deleteMessage } from "../db/externalDbService";
 import { logger } from "../lib/utils/logger";
 

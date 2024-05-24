@@ -1,13 +1,14 @@
+import { usersInRooms } from "../lib/mocks/mockData"; // TODO для теста блока views на клиенте. убрать, когда юзер сможет добавлять себе аватарки
 import { User, UserWithRoom } from "../types/user";
 
-export const userMap = new Map<string, UserWithRoom>();
+export const userMap = new Map<string, UserWithRoom>(usersInRooms);
 
 export const getUsersCountInRoom = (roomId: string): number =>
   [...userMap.values()].filter((item) => item.roomId === roomId).length;
 
-export const getFirstAvatars = (count: number): string[] =>
+export const getFirstAvatars = (count: number, roomId: string): string[] =>
   [...userMap.values()]
-    .filter((item) => item.avatar)
+    .filter((item) => item.avatar && item.roomId === roomId)
     .slice(0, count)
     .map((item) => item.avatar);
 

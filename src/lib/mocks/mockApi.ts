@@ -1,5 +1,5 @@
 import { AuthUserData } from "../../types/user";
-import { nockedAuthUserData } from "./mockData";
+import { mockedAuthUserData } from "./mockData";
 
 export const fakeRequestAuthUserData = (
   _token: string,
@@ -10,6 +10,6 @@ export const fakeRequestAuthUserData = (
       if (fail) {
         throw new Error("Bad User");
       }
-      res(nockedAuthUserData);
+      res(mockedAuthUserData);
     }, 200);
   });

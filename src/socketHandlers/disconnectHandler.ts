@@ -1,6 +1,6 @@
 import { Socket } from "socket.io";
 import { sendUsersData } from "../lib/helpers/socket";
-import { deleteUser, getRoomIdBySocketId } from "../db/internalВbService";
+import { deleteUser, getRoomIdBySocketId } from "../db/internalDbService";
 import { logger } from "../lib/utils/logger";
 
 export const disconnectHandler = (socket: Socket) => {

@@ -1,4 +1,4 @@
-import { getUserBySocket, setUser } from "../../db/internalВbService";
+import { getUserBySocket, setUser } from "../../db/internalDbService";
 import { UserWithRoom } from "../../types/user";
 import { requestUserAuthData } from "../api/mainServerApi";
 
