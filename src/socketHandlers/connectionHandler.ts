@@ -1,12 +1,9 @@
 import { Server, Socket } from "socket.io";
-import { JoinRoomHandlerData, joinRoomHandler } from "./joinRoomHandler";
+import { JoinRoomHData, joinRoomHandler } from "./joinRoomHandler";
 import { disconnectHandler } from "./disconnectHandler";
+import { SendMessageData, sendMessageHandler } from "./sendMessageHandler";
 import {
-  SendMessageHandlerData,
-  sendMessageHandler,
-} from "./sendMessageHandler";
-import {
-  DeleteMessageHandlerData,
+  DeleteMessageData,
   deleteMessageHandler,
 } from "./deleteMessageHandler";
 import { logger } from "../lib/utils/logger";
@@ -16,16 +13,16 @@ export const connectionHandler = (io: Server, socket: Socket) => {
 
   socket.on(
     "room:join",
-    async (data: JoinRoomHandlerData) => await joinRoomHandler(io, socket, data)
+    async (data: JoinRoomHData) => await joinRoomHandler(io, socket, data)
   );
   socket.on(
     "message:send",
-    async (data: SendMessageHandlerData) =>
+    async (data: SendMessageData) =>
       await sendMessageHandler(io, socket.id, data)
   );
   socket.on(
     "message:delete",
-    async (data: DeleteMessageHandlerData) =>
+    async (data: DeleteMessageData) =>
       await deleteMessageHandler(io, socket.id, data)
   );
 

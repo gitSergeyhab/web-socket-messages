@@ -6,7 +6,7 @@ import { getUserBySocket } from "../db/internalDbService";
 import { createNewMessage } from "../db/externalDbService";
 import { logger } from "../lib/utils/logger";
 
-export interface SendMessageHandlerData {
+export interface SendMessageData {
   message: RequestMessage;
   roomId: string;
 }
@@ -14,7 +14,7 @@ export interface SendMessageHandlerData {
 export const sendMessageHandler = async (
   io: Server,
   socketId: string,
-  data: SendMessageHandlerData
+  data: SendMessageData
 ) => {
   const { roomId, message } = data;
   const userInfo = getUserBySocket(socketId);

@@ -5,7 +5,7 @@ import { sendErrorMessage, sendUsersData } from "../lib/helpers/socket";
 import { getRoomMessages } from "../db/externalDbService";
 import { logger } from "../lib/utils/logger";
 
-export interface JoinRoomHandlerData {
+export interface JoinRoomHData {
   roomId: string;
   token: string;
 }
@@ -13,7 +13,7 @@ export interface JoinRoomHandlerData {
 export const joinRoomHandler = async (
   io: Server,
   socket: Socket,
-  { roomId, token }: JoinRoomHandlerData
+  { roomId, token }: JoinRoomHData
 ) => {
   const userInfo = await getUserInfoAndSetToDB(socket.id, roomId, token);
   if (!userInfo) {
@@ -27,5 +27,5 @@ export const joinRoomHandler = async (
   logger.info(`user: ${socket.id} entered the room ${roomId}`);
   sendUsersData(roomId);
   const messages = await getRoomMessages(roomId, socket.id);
-  io.to(roomId).emit("messages:all", toResponseMessages(messages));
+  io.to(socket.id).emit("messages:all", toResponseMessages(messages));
 };
