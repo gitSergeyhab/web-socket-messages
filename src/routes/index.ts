@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { mainServerRouter } from "./mainServerRouter";
+import { eventsRouter } from "./events";
 
 const router = Router();
 
-router.use("/server", mainServerRouter);
+router.use("/events", eventsRouter);
 
 export { router };

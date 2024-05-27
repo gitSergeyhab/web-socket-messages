@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { logger } from "../logger";
+import { logger } from "../utils/logger";
 
 interface HttpError extends Error {
   status?: number;

@@ -3,12 +3,12 @@ import http from "http";
 import cors from "cors";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
-import { errorHandler } from "./lib/utils/middlewares/errorHandler";
 import { mongoConnect } from "./lib/utils/mongoConnect";
 import { connectionHandler } from "./socketHandlers/connectionHandler";
 import { router } from "./routes";
 import morgan from "morgan";
 import { logger } from "./lib/utils/logger";
+import { errorHandler } from "./lib/middlewares/errorHandler";
 
 dotenv.config();
 
