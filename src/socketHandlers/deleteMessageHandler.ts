@@ -4,14 +4,14 @@ import { getUserBySocket } from "../db/internalDbService";
 import { deleteMessage } from "../db/externalDbService";
 import { logger } from "../lib/utils/logger";
 
-export interface DeleteMessageHandlerData {
+export interface DeleteMessageData {
   roomId: string;
   messageId: string;
 }
 export const deleteMessageHandler = async (
   io: Server,
   socketId: string,
-  data: DeleteMessageHandlerData
+  data: DeleteMessageData
 ) => {
   const { messageId, roomId } = data;
   const userInfo = getUserBySocket(socketId);
