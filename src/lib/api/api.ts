@@ -1,6 +1,9 @@
 import axios from "axios";
+import dotenv from "dotenv";
 
-const createApi = () => {
+dotenv.config();
+
+export const createApi = () => {
   const api = axios.create({
     baseURL: process.env.MAIN_SERVER_URL,
   });
