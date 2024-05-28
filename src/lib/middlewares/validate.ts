@@ -9,9 +9,6 @@ export const validate = (schema: Schema) => {
     const { error } = schema.validate(req.body);
     if (error) {
       throw new Error(error.details.map((d) => d.message).join(", "));
-      // return res
-      //   .status(400)
-      //   .json({ error: error.details.map((d) => d.message).join(", ") });
     }
     next();
   };
