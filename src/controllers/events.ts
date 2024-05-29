@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import { io } from "../";
+import { WebinarEventWithId } from "../types/event";
 
 export const reSendEvent = (req: Request, res: Response) => {
-  const { event, webinar_id } = req.body;
-  io.to(String(webinar_id)).emit("event", event);
+  const { webinar, ...restData } = req.body as WebinarEventWithId;
+  io.to(String(webinar)).emit("event", restData);
   res.status(201).json({ message: "event has been sent" });
 };
