@@ -1,7 +1,7 @@
 import { createLogger, format, transports } from "winston";
 
 export const logger = createLogger({
-  level: "debug",
+  level: "info",
   format: format.combine(
     format.timestamp({
       format: "DD.MM.YYYY HH:mm:ss",
