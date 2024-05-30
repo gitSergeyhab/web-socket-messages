@@ -12,7 +12,7 @@ export const getUserInfoAndSetToDB = async (
 ): Promise<UserWithRoom | null> => {
   const dbUser = getUserBySocket(socketId);
   if (dbUser) return dbUser;
-  const msg = `getUserInfoAndSetToDB: socketId: ${socketId}, roomId: ${roomId}, token: ${token}`;
+  const msg = `room:join(getUserInfoAndSetToDB): socketId: ${socketId}, roomId: ${roomId}`;
   try {
     const { data } = await requestUserAuthData$(token);
     if (!data) {
