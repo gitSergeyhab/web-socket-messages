@@ -1,7 +1,7 @@
-import { usersInRooms } from "../lib/mocks/mockData"; // TODO для теста блока views на клиенте. убрать, когда юзер сможет добавлять себе аватарки
+// import { usersInRooms } from "../lib/mocks/mockData"; // TODO для теста блока views на клиенте. убрать, когда юзер сможет добавлять себе аватарки
 import { User, UserWithRoom } from "../types/user";
 
-export const userMap = new Map<string, UserWithRoom>(usersInRooms);
+export const userMap = new Map<string, UserWithRoom>([]);
 
 export const getUsersCountInRoom = (roomId: string): number =>
   [...userMap.values()].filter((item) => item.roomId === roomId).length;

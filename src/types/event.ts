@@ -8,7 +8,6 @@ export interface WebinarEvent {
   event_data: unknown;
 }
 
-export interface WebinarEventWithId {
-  event: WebinarEvent;
-  webinar_id: number;
+export interface WebinarEventWithId extends WebinarEvent {
+  webinar: number;
 }

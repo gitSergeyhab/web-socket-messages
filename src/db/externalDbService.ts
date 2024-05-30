@@ -40,13 +40,13 @@ export const createNewMessage = async ({
 export const getRoomMessages = async (
   roomId: string,
   socketId: string
-): Promise<DBMessage[]> => {
+): Promise<DBMessage[] | null> => {
   try {
     return await MessageModel.find({ roomId, isDeleted: false });
   } catch (err) {
     sendErrorMessage(socketId, "сообщения чата недоступны");
     logger.error(`get messages from db: ${err}`);
-    return [];
+    return null;
   }
 };
 

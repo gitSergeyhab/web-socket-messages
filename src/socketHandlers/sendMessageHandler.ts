@@ -11,10 +11,16 @@ export interface SendMessageData {
   roomId: string;
 }
 
+export type OnReceived = (response: {
+  isReceived: boolean;
+  ok: boolean;
+}) => void;
+
 export const sendMessageHandler = async (
   io: Server,
   socketId: string,
-  data: SendMessageData
+  data: SendMessageData,
+  onReceived: OnReceived
 ) => {
   const { roomId, message } = data;
   const userInfo = getUserBySocket(socketId);
@@ -23,6 +29,7 @@ export const sendMessageHandler = async (
     logger.warn(
       `un auth user: ${socketId} tried to send the message: ${message.text}`
     );
+    onReceived({ isReceived: true, ok: false });
     return;
   }
   const newMessage = await createNewMessage({
@@ -31,7 +38,10 @@ export const sendMessageHandler = async (
     userInfo,
     socketId,
   });
-  if (newMessage) {
-    io.to(data.roomId).emit("message:new", toResponseMessage(newMessage));
+  if (!newMessage) {
+    onReceived({ isReceived: true, ok: false });
+    return;
   }
+  io.to(data.roomId).emit("message:new", toResponseMessage(newMessage));
+  onReceived({ isReceived: true, ok: true });
 };
