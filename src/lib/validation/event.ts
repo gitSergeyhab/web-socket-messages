@@ -9,8 +9,3 @@ export const eventSchema = Joi.object<WebinarEventWithId>({
   event_data: Joi.any().required(),
   webinar: Joi.number().required(),
 });
-
-// export const webinarEventWithIdSchema = Joi.object<WebinarEventWithId>({
-//   event: eventSchema.required(),
-//   webinar_id: Joi.number().integer().positive().required(),
-// });
