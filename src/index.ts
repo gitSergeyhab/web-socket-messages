@@ -20,8 +20,7 @@ app.use(express.json());
 
 const hosts = process.env.ALLOWED_ORIGINS?.split(",") || [];
 
-// const origin = process.env.NODE_ENV === "development" ? hosts : "*";
-const origin = "*";
+const origin = process.env.NODE_ENV === "development" ? hosts : "*";
 
 app.use(
   cors({
@@ -34,7 +33,7 @@ app.use(
 app.use(
   morgan("combined", {
     stream: {
-      write: (message) => logger.debug(message.trim()),
+      write: (message) => logger.info(message.trim()),
     },
   })
 );

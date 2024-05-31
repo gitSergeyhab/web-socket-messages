@@ -7,7 +7,6 @@ import { logger } from "../lib/utils/logger";
 
 export const connectionHandler = (io: Server, socket: Socket) => {
   logger.info(`a user connected: ${socket.id}`);
-
   socket.on(
     "room:join",
     async (data, onJoin) => await joinRoomHandler(io, socket, data, onJoin)

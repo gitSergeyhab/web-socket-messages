@@ -12,19 +12,18 @@ export const getUserInfoAndSetToDB = async (
 ): Promise<UserWithRoom | null> => {
   const dbUser = getUserBySocket(socketId);
   if (dbUser) return dbUser;
-  const msg = `room:join(getUserInfoAndSetToDB): socketId: ${socketId}, roomId: ${roomId}`;
+  const msg = `room:join:getUserInfoAndSetToDB: socketId: ${socketId}, roomId: ${roomId}`;
   try {
     const { data } = await requestUserAuthData$(token);
     if (!data) {
-      logger.debug(`success - no data: ${msg}`);
+      logger.debug(`${msg} : no user data`);
       return null;
     }
-    logger.debug(`success - data: ${msg}, data : ${JSON.stringify(data)}`);
+    logger.debug(`${msg}: success - data : ${JSON.stringify(data)}`);
     const user = { ...data, socketId };
     setUser(socketId, user, roomId);
     return { ...user, roomId };
   } catch (err) {
-    logger.debug(`error: $${msg}`);
     logger.error(getErrorMessage(err as ApiError));
     return null;
   }
