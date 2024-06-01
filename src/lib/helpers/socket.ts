@@ -1,14 +1,10 @@
-import {
-  getFirstAvatars,
-  getUsersCountInRoom,
-} from "../../db/internalDbService";
+import { getFirstAvatars, getUsersIdInRoom } from "../../db/internalDbService";
 import { io } from "../..";
 
 export const sendUsersData = (roomId: string): void => {
-  const roomUsersCount = getUsersCountInRoom(roomId);
-  const userAvatars = getFirstAvatars(3, roomId);
-  io.to(roomId).emit("users:count", roomUsersCount);
-  io.to(roomId).emit("users:avatars", userAvatars);
+  const indexes = getUsersIdInRoom(roomId);
+  const avatars = getFirstAvatars(3, roomId);
+  io.to(roomId).emit("users", { indexes, avatars });
 };
 
 export const sendErrorMessage = (socketId: string, message: string): void => {

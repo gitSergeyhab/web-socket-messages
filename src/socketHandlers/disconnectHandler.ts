@@ -4,7 +4,7 @@ import {
   deleteUser,
   getRoomIdBySocketId,
   getUserBySocket,
-  getUsersCountInRoom,
+  getUsersIdInRoom,
 } from "../db/internalDbService";
 import { logger } from "../lib/utils/logger";
 
@@ -15,10 +15,10 @@ export const disconnectHandler = (socket: Socket) => {
     logger.warn(`disconnect: there is no room of user ${user}`);
     return;
   }
-  const usersCount = getUsersCountInRoom(roomId);
+  const usersCount = getUsersIdInRoom(roomId).length;
   deleteUser(socket.id);
   sendUsersData(roomId);
-  const usersCountAfter = getUsersCountInRoom(roomId);
+  const usersCountAfter = getUsersIdInRoom(roomId).length;
   logger.debug(
     `disconnect: user count before/after: ${usersCount}/${usersCountAfter}`
   );
