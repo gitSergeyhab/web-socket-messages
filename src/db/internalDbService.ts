@@ -1,16 +1,27 @@
-// import { usersInRooms } from "../lib/mocks/mockData"; // TODO для теста блока views на клиенте. убрать, когда юзер сможет добавлять себе аватарки
 import { User, UserWithRoom } from "../types/user";
 
 export const userMap = new Map<string, UserWithRoom>([]);
 
-export const getUsersCountInRoom = (roomId: string): number =>
-  [...userMap.values()].filter((item) => item.roomId === roomId).length;
+const getUniqueRoomUsers = (roomId: string): UserWithRoom[] => {
+  const dict = [...userMap.values()].reduce((acc, user) => {
+    if (!acc[user.id] && roomId === user.roomId) {
+      acc[user.id] = user;
+    }
+    return acc;
+  }, {} as Record<string, UserWithRoom>);
+  return Object.values(dict);
+};
+
+export const getUsersIdInRoom = (roomId: string): number[] =>
+  getUniqueRoomUsers(roomId).map(({ id }) => id);
 
 export const getFirstAvatars = (count: number, roomId: string): string[] =>
-  [...userMap.values()]
-    .filter((item) => item.avatar && item.roomId === roomId)
-    .slice(0, count)
-    .map((item) => item.avatar);
+  getUniqueRoomUsers(roomId)
+    .reduce((acc, { avatar }) => {
+      if (avatar) acc.push(avatar);
+      return acc;
+    }, [] as string[])
+    .slice(0, count);
 
 export const setUser = (
   userSocketId: string,
