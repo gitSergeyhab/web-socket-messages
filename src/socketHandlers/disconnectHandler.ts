@@ -12,7 +12,9 @@ export const disconnectHandler = (socket: Socket) => {
   const user = getUserBySocket(socket.id);
   const roomId = getRoomIdBySocketId(socket.id);
   if (!roomId) {
-    logger.warn(`disconnect: there is no room of user ${user}`);
+    logger.debug(
+      `disconnect: there is no room of user(socket/id) ${user?.socketId}/${user?.id}`
+    );
     return;
   }
   const usersCount = getUsersIdInRoom(roomId).length;
@@ -22,5 +24,7 @@ export const disconnectHandler = (socket: Socket) => {
   logger.debug(
     `disconnect: user count before/after: ${usersCount}/${usersCountAfter}`
   );
-  logger.info(`disconnect: a user disconnected: ${user}`);
+  logger.info(
+    `disconnect: a user(socket/id) disconnected: ${user?.socketId}/${user?.id}`
+  );
 };
